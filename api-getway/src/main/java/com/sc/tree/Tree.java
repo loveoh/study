@@ -99,18 +99,19 @@ public class Tree {
     }
 
     /**
-     *  中序遍历 非递归
+     * 中序遍历 非递归
+     *
      * @param root
      */
-    public static void minOrderTraveralWhitStack(TreeNode root){
+    public static void minOrderTraveralWhitStack(TreeNode root) {
         Stack<TreeNode> stack = new Stack<>();
         TreeNode treeNode = root;
-        while (treeNode !=null || !stack.isEmpty()){
-            while (treeNode != null){
+        while (treeNode != null || !stack.isEmpty()) {
+            while (treeNode != null) {
                 stack.push(treeNode);
                 treeNode = treeNode.leftChild;
             }
-            if (!stack.isEmpty()){
+            if (!stack.isEmpty()) {
                 treeNode = stack.pop();
                 System.out.println(treeNode.data);
                 treeNode = treeNode.rightChild;
@@ -119,49 +120,77 @@ public class Tree {
     }
 
     /**
-     *  后序遍历 非递归
+     * 后序遍历 非递归
+     *
      * @param root
      */
-    public static void postOrderTraveralWhitStack(TreeNode root){
+    public static void postOrderTraveralWhitStack(TreeNode root) {
         Stack<TreeNode> inputStack = new Stack<>();
         Stack<TreeNode> outputStack = new Stack<>();
         TreeNode treeNode = root;
-        while (treeNode !=null || !inputStack.isEmpty()){
-            if (treeNode != null){
+        while (treeNode != null || !inputStack.isEmpty()) {
+            if (treeNode != null) {
                 inputStack.push(treeNode);
                 outputStack.push(treeNode);
                 treeNode = treeNode.rightChild;
-            }else {
+            } else {
                 treeNode = inputStack.pop();
                 treeNode = treeNode.leftChild;
             }
         }
 
-        while (!outputStack.isEmpty()){
+        while (!outputStack.isEmpty()) {
             treeNode = outputStack.pop();
             System.out.println(treeNode.data);
         }
     }
 
     /**
-     *  广度优先遍历
+     * 广度优先遍历
+     *
      * @param root
      */
-    public static void   levelOrderTraveral(TreeNode root){
+    public static void levelOrderTraveral(TreeNode root) {
         Queue<TreeNode> queue = new LinkedList<TreeNode>();
         TreeNode treeNode = null;
         queue.offer(root);
-        while (!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             treeNode = queue.poll();
             System.out.println(treeNode.data);
-            if (treeNode.leftChild !=null){
+            if (treeNode.leftChild != null) {
                 queue.offer(treeNode.leftChild);
             }
-            if (treeNode.rightChild !=null){
+            if (treeNode.rightChild != null) {
                 queue.offer(treeNode.rightChild);
-            } 
+            }
         }
     }
+
+    /**
+     *  查找二叉树的节点
+     * @param treeNode
+     * @param i
+     * @return
+     */
+    public static TreeNode findByFront(TreeNode treeNode, int i) {
+        TreeNode target = null;
+        if (treeNode.data.equals(i)) {
+            return treeNode;
+        } else {
+            if (treeNode.leftChild != null) {
+                target = findByFront(treeNode.leftChild, i);
+            }
+            if (target != null) {
+                return target;
+            }
+            if (treeNode.rightChild != null) {
+                target = findByFront(treeNode.rightChild, i);
+            }
+        }
+        return target;
+
+    }
+
 
     public static void main(String[] args) {
         LinkedList input = new LinkedList(Arrays.asList(new Integer[]{
@@ -180,6 +209,10 @@ public class Tree {
         postOrderTraveralWhitStack(treeNode);
         System.out.println("广度优先遍历：");
         levelOrderTraveral(treeNode);
+        System.out.println("查找树的节点");
+        TreeNode target = findByFront(treeNode,10);
+        System.out.println(target.data);
+
     }
 
 
